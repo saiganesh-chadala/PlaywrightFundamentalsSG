@@ -1,6 +1,6 @@
 import {test , expect} from "@playwright/test";
 
-test('Verify Error Message in Invalid Login', async({page})=>{
+test('Verify Error Message in Invalid Login', async({page}) => {
     await page.goto('https://katalon-demo-cura.herokuapp.com');
 
     let make_appnt_buttin = await page.locator('#btn-make-appointment');
