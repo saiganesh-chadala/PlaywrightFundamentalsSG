@@ -18,6 +18,11 @@
   "homepage": "https://github.com/saiganesh-chadala/PlaywrightFundamentalsSG#readme",
   "devDependencies": {
     "@playwright/test": "^1.59.1",
-    "@types/node": "^25.6.0"
+    "@types/node": "^25.6.0",
+    "allure-js-commons": "^3.7.2",
+    "allure-playwright": "^3.7.2"
+  },
+  "dependencies": {
+    "allure-commandline": "^2.38.1"
   }
 }

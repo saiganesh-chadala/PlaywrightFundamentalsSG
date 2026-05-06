@@ -1,11 +1,12 @@
 # PlaywrightFundamentalsSG
 
-A small Playwright test project used to learn browser, context, and page handling with Playwright Test.
+A small Playwright test project used to learn browser, context, page handling, locators, session storage, and Allure reporting with Playwright Test.
 
 ## Prerequisites
 
 - Node.js 18 or later
 - npm
+- Java JDK 17 or later for Allure report viewing
 
 ## Install
 
@@ -46,6 +47,44 @@ Open the HTML report:
 npx playwright show-report
 ```
 
+## Allure reporting
+
+This project supports Allure reporting through the Playwright reporter.
+
+### Reporter configuration
+
+Configured in `playwright.config.ts`:
+
+```ts
+reporter: [['html'], ['allure-playwright', { outputFolder: 'allure-results' }]]
+```
+
+### Run tests and generate Allure results
+
+```bash
+npx playwright test
+```
+
+After test execution, `allure-results/` should be created.
+
+### Open the Allure report
+
+```powershell
+allure serve .\allure-results
+```
+
+### Java check
+
+```powershell
+java -version
+```
+
+### Allure check
+
+```powershell
+allure --version
+```
+
 ## Important Windows note
 
 When passing a single file to `npx playwright test` on PowerShell, prefer forward slashes in the path:
@@ -56,11 +95,37 @@ npx playwright test tests/01_Basics/215_ManualContext_In_PWTest.spec.ts --projec
 
 Avoid using a quoted Windows path like `.\tests\01_Basics\215_ManualContext_In_PWTest.spec.ts` as the positional filter. Playwright treats the argument as a regular expression, and backslashes can prevent the file from matching, resulting in `Error: No tests found`.
 
-If needed, you can also filter by regex explicitly:
+If needed, filter by regex explicitly:
 
 ```bash
 npx playwright test "215_ManualContext_In_PWTest\.spec\.ts$" --project=chromium
 ```
+
+## Common error: "No tests found"
+
+This usually means one of these:
+
+- command is run from the wrong folder
+- Windows backslashes are used in the file filter
+- file path does not match the actual spec location
+
+Example:
+
+```bash
+npx playwright test tests/04_Allure_Reporting/226_Login.spec.ts
+```
+
+Run commands from the folder that contains:
+
+- `playwright.config.ts`
+- `package.json`
+- `tests/`
+
+## Common error: "Requiring @playwright/test second time"
+
+This usually means Playwright was installed in both parent and child folders.
+
+Keep dependencies only in the real project folder and remove accidental duplicates from parent folders.
 
 ## Common error: "Playwright Test did not expect test() to be called here"
 
@@ -96,8 +161,6 @@ For URL verification, prefer Playwright auto-wait assertions:
 await expect(page).toHaveURL('https://katalon-demo-cura.herokuapp.com/#appointment');
 ```
 
-This is more reliable than reading `page.url()` and asserting immediately.
-
 ## Project structure
 
 - `tests/01_Basics/211_Browser_Context_PageBCP.spec.ts`
@@ -112,8 +175,11 @@ This is more reliable than reading `page.url()` and asserting immediately.
 - `tests/02_Locator_Commands/218_Commands.spec.ts`
 - `tests/02_Locator_Commands/219_Common_Referer.spec.ts`
 - `tests/02_Locator_Commands/220_Automate_Cura_Site_Task.spec.ts`
+- `tests/03_Session_Storage/`
+- `tests/04_Allure_Reporting/`
 
 ## Output folders
 
 - HTML report: `playwright-report/`
 - Test artifacts: `test-results/`
+- Allure results: `allure-results/`
