@@ -107,7 +107,7 @@ This usually means one of these:
 
 - command is run from the wrong folder
 - Windows backslashes are used in the file filter
-- file path does not match the actual spec location
+- file path does not match the actual spec location — **check for typos in the filename** (e.g. `Prjoect4` vs `Project4`)
 
 Example:
 
@@ -175,11 +175,25 @@ await expect(page).toHaveURL('https://katalon-demo-cura.herokuapp.com/#appointme
 - `tests/02_Locator_Commands/218_Commands.spec.ts`
 - `tests/02_Locator_Commands/219_Common_Referer.spec.ts`
 - `tests/02_Locator_Commands/220_Automate_Cura_Site_Task.spec.ts`
-- `tests/03_Session_Storage/`
-- `tests/04_Allure_Reporting/`
+- `tests/02_Locator_Commands/221_Automate_app.vwo.com_getByRole.spec.ts`
+- `tests/02_Locator_Commands/222_CSS_Locators.spec.ts`
+- `tests/02_Locator_Commands/223_PressSequentially.spec.ts`
+- `tests/02_Locator_Commands/25thTask_getByRole.spec.ts`
+- `tests/02_Locator_Commands/28thTask.spec.ts`
+- `tests/03_Session_Storage/224_Session.spec.ts`
+- `tests/03_Session_Storage/225_Test_Vwo.spec.ts`
+- `tests/04_Allure_Reporting/226_Login.spec.ts`
+- `tests/05_Core_Concepts/`
+- `tests/Projects/Project4_Automate_TTA.spec.ts` — end-to-end signup and fund transfer on TTA Bank app
 
 ## Output folders
 
-- HTML report: `playwright-report/`
-- Test artifacts: `test-results/`
-- Allure results: `allure-results/`
+- HTML report: `playwright-report/` *(git-ignored)*
+- Test artifacts: `test-results/` *(git-ignored)*
+- Allure results: `allure-results/` *(git-ignored)*
+
+> These folders are excluded from version control via `.gitignore`. If they were previously committed, untrack them with:
+> ```bash
+> git rm -r --cached allure-results/ test-results/ playwright-report/
+> git commit -m "Remove test artifacts from tracking"
+> ```

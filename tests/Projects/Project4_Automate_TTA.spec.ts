@@ -26,7 +26,8 @@ test('automating TTA Signup and transfer amount', async({page})=> {
     let reviewTransferHdr = page.locator('//h3[text()="Review Transfer"]');
     let confirmTransferAmount = page.locator('//div[span[text()="Amount"]]/span[contains(@class,"font-bold")]')
     let confirmTransferBtn = page.getByRole("button", {name : "Confirm Transfer"});
-
+    
+    //Clicking Signup button and filling details 
     await signupBtn.click();
     await page.waitForTimeout(3000);
     await FullNameTextBox.fill("PowerStar");
@@ -35,30 +36,35 @@ test('automating TTA Signup and transfer amount', async({page})=> {
     await createAccBtn.click();
     await page.waitForTimeout(2000);
 
+    //checking total balance and converting to number for validating at end
     await expect(dashboardHdr).toBeVisible();
     await expect(totalBalLoc).toBeVisible();
     let totalBal = await totalBalLoc.textContent();
     console.log("Total Balance before Transfer : ", totalBal);
     let totalBalVal = parseInt(totalBal.replace(/[$,]/g, ''), 10);
     
-
+    //navigate to transfer funds page
     await transferFundsBtn.click();
     await expect(transferFundsHdr).toBeVisible();
     await page.waitForTimeout(2000);
 
+    //adding transfer amount and note
     await transferAmountTextbox.fill(`${transferAmount}`);
     await noteTextbox.fill(note);
     await continueBtn.click();
     await page.waitForTimeout(2000);
 
+    //checking the entered tranfer amount to be same
     await expect(reviewTransferHdr).toBeVisible();
     await expect(confirmTransferAmount).toHaveText('$' + transferAmount.toString() + '.00');
     
+    //clicking on transfer and navigating to dashboard
     await confirmTransferBtn.click();
     await dashboardBtn.click();
     await expect(dashboardHdr).toBeVisible();
     await expect(totalBalLoc).toBeVisible();
     
+    //checking if total balance should be equal to total amount - transfered amount
     let totalBalAfterText = await totalBalLoc.textContent();
     let totalBalAfterTransfer = parseInt(totalBalAfterText.replace(/[$,]/g, ''), 10);
     await expect(totalBalAfterTransfer).toEqual(totalBalVal - transferAmount);
